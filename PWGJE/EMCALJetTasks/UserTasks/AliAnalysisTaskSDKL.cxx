@@ -33,7 +33,10 @@ AliAnalysisTaskSDKL::AliAnalysisTaskSDKL(const char *name) :
   fTreeBackSub(0),
   fJetsCont(0),
   fTracksCont(0),
-  fbcoption(0)
+  fbcoption(0),
+  fConstSubtractorDeltaR(0),
+  fConstSubtractorAlpha(0),
+  fConstSubtractorGhostArea(0)
 {
   // Default constructor.
   // SetMakeGeneralHistograms(kTRUE);
@@ -50,7 +53,10 @@ AliAnalysisTaskSDKL::AliAnalysisTaskSDKL(const char *name, Int_t const backgropt
   fTreeBackSub(0),
   fJetsCont(0),
   fTracksCont(0),
-  fbcoption(backgroption)
+  fbcoption(backgroption),
+  fConstSubtractorDeltaR(1.0),
+  fConstSubtractorAlpha(1.0),
+  fConstSubtractorGhostArea(0.01)
 {
   // Standard constructor.
   // SetMakeGeneralHistograms(kTRUE);
@@ -487,9 +493,9 @@ std::vector<fastjet::PseudoJet> AliAnalysisTaskSDKL::GetBackSubEvent(std::vector
     if (0==opt) rho_C = rho_sparse; //pA
     else        rho_C = rho;        //AA
     fastjet::contrib::ConstituentSubtractor subtractor(rho_C, rho_C, 1, 1);
-    subtractor.set_max_standardDeltaR(1);
-    subtractor.set_alpha(1);
-    subtractor.set_ghost_area(0.01);
+    subtractor.set_max_standardDeltaR(fConstSubtractorDeltaR);
+    subtractor.set_alpha(fConstSubtractorAlpha);
+    subtractor.set_ghost_area(fConstSubtractorGhostArea);
 
     std::vector <fastjet::PseudoJet> corrected_event = subtractor.subtract_event(full_event, max_eta);
     return corrected_event;

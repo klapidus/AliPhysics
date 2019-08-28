@@ -64,6 +64,10 @@ class AliAnalysisTaskSDKL : public AliAnalysisTaskEmcalJet {
 
   void                 FillSparseFromSplits(THnSparse *histo, std::vector<split> const & splits, double const jet_pt);
 
+  void                 SetConstSubtractorDeltaR(double const dr)         { fConstSubtractorDeltaR = dr; }
+  void                 SetConstSubtractorAlpha(double const alpha)       { fConstSubtractorAlpha = alpha; }
+  void                 SetConstSubtractorGhostArea(double const gh_area) { fConstSubtractorGhostArea = gh_area; }
+
  protected:
   void                        ExecOnce();
   Bool_t                      FillHistograms()   ;
@@ -86,6 +90,10 @@ class AliAnalysisTaskSDKL : public AliAnalysisTaskEmcalJet {
   AliAnalysisTaskSDKL(const AliAnalysisTaskSDKL&);            // not implemented
   AliAnalysisTaskSDKL &operator=(const AliAnalysisTaskSDKL&); // not implemented
   ClassDef(AliAnalysisTaskSDKL, 1) // jet sample analysis task
+
+  double                      fConstSubtractorDeltaR;
+  double                      fConstSubtractorAlpha;
+  double                      fConstSubtractorGhostArea;
 
 };
 #endif
